@@ -1,7 +1,6 @@
-import 'internals.dart';
+// import 'internals.dart';
 import 'package:get_it/get_it.dart';
-
-// class SuperService implements
+import 'package:data/data.dart';
 
 class ServiceProvider {
   static final _getIt = GetIt.I;
@@ -11,7 +10,7 @@ class ServiceProvider {
   static final instance = ServiceProvider();
 
   void initialize() {
-    _getIt.registerLazySingleton<MyService>(
+    _getIt.registerLazySingleton<SuperService>(
       () => MyService(),
     );
   }
