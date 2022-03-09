@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:data/data.dart';
 
@@ -15,5 +16,17 @@ class SomeBlock {
 
   void dispose() {
     _eventsController.close();
+  }
+
+  void adder() {
+    superService.getValue();
+  }
+
+  myShow() {
+    return superService.array;
+  }
+
+  void myCleaner() {
+    superService.array.clear();
   }
 }

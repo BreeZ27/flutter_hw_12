@@ -11,7 +11,9 @@ class MyFactory {
 
   void initialize() {
     ServiceProvider.instance.initialize();
-    _getIt.registerFactory<SomeBlock>(() =>
+    _getIt.registerLazySingleton(() =>
         SomeBlock(superService: ServiceProvider.instance.get<SuperService>()));
+    // _getIt.registerFactory<SomeBlock>(() =>
+    //     SomeBlock(superService: ServiceProvider.instance.get<SuperService>()));
   }
 }

@@ -47,13 +47,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  var toShow = 'No data';
 
-  void _incrementCounter() {
-    context.read<SomeBlock>().add(0);
-    setState(() {
-      _counter++;
-    });
+  void _showTo() {
+    toShow = context.read<SomeBlock>().myShow().toString();
+    setState(() {});
+  }
+
+  void _addTo() {
+    context.read<SomeBlock>().adder();
+    toShow = 'Has data';
+    setState(() {});
+  }
+
+  void _cleanFrom() {
+    context.read<SomeBlock>().myCleaner();
+    toShow = 'No data';
+    setState(() {});
   }
 
   @override
@@ -64,22 +74,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            Expanded(
+              child: Column(
+                children: [
+                  OutlinedButton(onPressed: _addTo, child: Text('Добавить')),
+                  OutlinedButton(
+                      onPressed: _cleanFrom, child: Text('Очистить')),
+                  OutlinedButton(onPressed: _showTo, child: Text('Показать')),
+                ],
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Expanded(
+                child: Column(
+              children: [Text(toShow)],
+            ))
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
