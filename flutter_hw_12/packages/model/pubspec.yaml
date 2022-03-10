@@ -1,4 +1,4 @@
-name: buisness
+name: model
 description: A new Flutter package project.
 version: 0.0.1
 publish_to: none
@@ -10,10 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  get_it: ^7.2.0
   freezed: ^1.1.1
-  data:
-    path: ../data
+
 
 dev_dependencies:
   flutter_test:

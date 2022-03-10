@@ -13,6 +13,8 @@ class MyFactory {
     ServiceProvider.instance.initialize();
     _getIt.registerLazySingleton(() =>
         SomeBlock(superService: ServiceProvider.instance.get<SuperService>()));
+    _getIt.registerLazySingleton(() =>
+        UserBlock(userService: ServiceProvider.instance.get<UserService>()));
     // _getIt.registerFactory<SomeBlock>(() =>
     //     SomeBlock(superService: ServiceProvider.instance.get<SuperService>()));
   }

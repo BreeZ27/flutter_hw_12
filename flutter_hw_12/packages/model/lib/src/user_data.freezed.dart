@@ -109,7 +109,7 @@ class __$UserDataCopyWithImpl<$Res> extends _$UserDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_UserData with DiagnosticableTreeMixin implements _UserData {
+class _$_UserData implements _UserData {
   const _$_UserData({required this.id, required this.name});
 
   @override
@@ -118,17 +118,8 @@ class _$_UserData with DiagnosticableTreeMixin implements _UserData {
   final String name;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'UserData(id: $id, name: $name)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'UserData'))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('name', name));
   }
 
   @override

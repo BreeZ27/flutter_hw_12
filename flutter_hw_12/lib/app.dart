@@ -11,11 +11,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late final SomeBlock _someBlock;
+  // late final UserBlock _userBlock;
 
   @override
   void initState() {
     super.initState();
     _someBlock = MyFactory.instance.get<SomeBlock>();
+    // _userBlock = MyFactory.instance.get<UserBlock>();
   }
 
   @override
@@ -33,6 +35,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     _someBlock.dispose();
+    // _userBlock.dispose();
     super.dispose();
   }
 }
@@ -88,7 +91,21 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
                 child: Column(
               children: [Text(toShow)],
-            ))
+            )),
+            // Expanded(
+            //     child: StreamBuilder<UserBlockState>(
+            //   stream: context.read<UserBlock>().state,
+            //   builder: (context, snapshot) {
+            //     if (snapshot.hasData) {
+            //       final state = snapshot.data;
+            //       return state!.map(
+            //           loading: (_) => Text('Loading'),
+            //           loaded: (_) => Text('Loaded'));
+            //     } else {
+            //       return CircularProgressIndicator();
+            //     }
+            //   },
+            // ))
           ],
         ),
       ),
