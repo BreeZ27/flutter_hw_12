@@ -23,12 +23,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter_hw_12',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: MyHomePage(
-          title: 'Flutter_hw_12',
-        ));
+    return Provider<SomeBlock>(
+        create: (_) => _someBlock,
+        child: MaterialApp(
+            title: 'Flutter_hw_12',
+            theme: ThemeData(primarySwatch: Colors.blue),
+            home: MyHomePage(
+              title: 'Flutter_hw_12',
+            )));
   }
 
   // @override
@@ -82,62 +84,85 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<UserBlockState>(
-      stream: context.read<UserBlock>().state,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final state = snapshot.data;
-          return state!.map(
-            loading: (_) => Scaffold(),
-            loaded: (state) => Scaffold(
-              appBar: AppBar(
-                title: Text(widget.title),
-              ),
-              body: Center(
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        children: [
-                          OutlinedButton(
-                              onPressed: _addTo, child: Text('Добавить')),
-                          OutlinedButton(
-                              onPressed: _cleanFrom, child: Text('Очистить')),
-                          OutlinedButton(
-                              onPressed: _showTo, child: Text('Показать')),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                        child: Column(
-                      children: [Text(toShow)],
-                    )),
-                    // Expanded(
-                    //     child: StreamBuilder<UserBlockState>(
-                    //   stream: context.read<UserBlock>().state,
-                    //   builder: (context, snapshot) {
-                    //     if (snapshot.hasData) {
-                    //       final state = snapshot.data;
-                    //       return state!.map(
-                    //           loading: (_) => Text('Loading'),
-                    //           loaded: (_) => Text('Loaded'));
-                    //     } else {
-                    //       return CircularProgressIndicator();
-                    //     }
-                    //   },
-                    // ))
-                  ],
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                children: [
+                  OutlinedButton(onPressed: _addTo, child: Text('Добавить')),
+                  OutlinedButton(
+                      onPressed: _cleanFrom, child: Text('Очистить')),
+                  OutlinedButton(onPressed: _showTo, child: Text('Показать')),
+                ],
               ),
             ),
-          );
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
+            Expanded(
+                child: Column(
+              children: [Text(toShow)],
+            )),
+          ],
+        ),
+      ),
     );
+
+    // return StreamBuilder<UserBlockState>(
+    //   stream: context.read<UserBlock>().state,
+    //   builder: (context, snapshot) {
+    //     if (snapshot.hasData) {
+    //       final state = snapshot.data;
+    //       return state!.map(
+    //         loading: (_) => Scaffold(),
+    //         loaded: (state) => Scaffold(
+    //           appBar: AppBar(
+    //             title: Text(widget.title),
+    //           ),
+    //           body: Center(
+    //             child: Column(
+    //               children: <Widget>[
+    //                 Expanded(
+    //                   child: Column(
+    //                     children: [
+    //                       OutlinedButton(
+    //                           onPressed: _addTo, child: Text('Добавить')),
+    //                       OutlinedButton(
+    //                           onPressed: _cleanFrom, child: Text('Очистить')),
+    //                       OutlinedButton(
+    //                           onPressed: _showTo, child: Text('Показать')),
+    //                     ],
+    //                   ),
+    //                 ),
+    //                 Expanded(
+    //                     child: Column(
+    //                   children: [Text(toShow)],
+    //                 )),
+    //                 // Expanded(
+    //                 //     child: StreamBuilder<UserBlockState>(
+    //                 //   stream: context.read<UserBlock>().state,
+    //                 //   builder: (context, snapshot) {
+    //                 //     if (snapshot.hasData) {
+    //                 //       final state = snapshot.data;
+    //                 //       return state!.map(
+    //                 //           loading: (_) => Text('Loading'),
+    //                 //           loaded: (_) => Text('Loaded'));
+    //                 //     } else {
+    //                 //       return CircularProgressIndicator();
+    //                 //     }
+    //                 //   },
+    //                 // ))
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       );
+    //     } else {
+    //       return CircularProgressIndicator();
+    //     }
+    //   },
+    // );
   }
 }
-
-
-// 
