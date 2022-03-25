@@ -17,5 +17,7 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   gh.lazySingleton<_i3.SomeBlock>(
       () => _i3.SomeBlock(superService: get<_i4.SuperService>()));
+  gh.factory<_i3.UserBlock>(
+      () => _i3.UserBlock(userService: get<_i4.UserService>()));
   return get;
 }
