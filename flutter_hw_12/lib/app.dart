@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:buisness/buisness.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatefulWidget {
@@ -16,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _someBlock = MyFactory.instance.get<SomeBlock>();
+    _someBlock = GetIt.I.get<SomeBlock>();
     // _userBlock = MyFactory.instance.get<UserBlock>();
   }
 

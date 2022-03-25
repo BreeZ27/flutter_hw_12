@@ -4,6 +4,6 @@ import 'package:buisness/buisness.dart';
 import 'app.dart';
 
 void main() {
-  MyFactory.instance.initialize();
+  initializeBlocs();
   runApp(MyApp());
 }
