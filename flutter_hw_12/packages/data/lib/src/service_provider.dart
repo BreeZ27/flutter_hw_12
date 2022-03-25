@@ -1,6 +1,7 @@
 // import 'internals.dart';
 import 'package:get_it/get_it.dart';
 import 'package:data/data.dart';
+// import 'package:injectable/injectable.dart';
 
 class ServiceProvider {
   static final _getIt = GetIt.I;
@@ -11,6 +12,9 @@ class ServiceProvider {
 
   void initialize() {
     _getIt.registerLazySingleton<SuperService>(() => MyService());
-    _getIt.registerLazySingleton<UserService>(() => MyUserService());
+    // _getIt.registerLazySingleton<UserService>(() => MyUserService());
   }
 }
+
+// @InjectableInit()
+// void initializeSetvices() => $initGetIt(GetIt.I);
