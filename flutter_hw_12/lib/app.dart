@@ -50,6 +50,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    context.read<SomeBlock>().add(0);
+    setState(() {
+      _counter += 1;
+    });
+  }
+
   var toShow = 'No data';
 
   void _showTo() {
