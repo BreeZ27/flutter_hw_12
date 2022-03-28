@@ -11,51 +11,36 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final SomeBlock _someBlock;
-  // late final UserBlock _userBlock;
+  late final UserBlock _userBlock;
 
   @override
   void initState() {
     super.initState();
-    _someBlock = GetIt.I.get<SomeBlock>();
-    // _userBlock = MyFactory.instance.get<UserBlock>();
+    _userBlock = GetIt.I.get<UserBlock>();
+    _userBlock.add(const UserBlockEvent.init());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Provider<SomeBlock>(
-        create: (_) => _someBlock,
+    return Provider<UserBlock>(
+        create: (_) => _userBlock,
         child: MaterialApp(
             title: 'Flutter_hw_12',
             theme: ThemeData(primarySwatch: Colors.blue),
-            home: MyHomePage(
+            home: const MyHomePage(
               title: 'Flutter_hw_12',
             )));
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Provider<SomeBlock>(
-  //       create: (_) => _someBlock,
-  //       child: MaterialApp(
-  //           title: 'Flutter_hw_12',
-  //           theme: ThemeData(primarySwatch: Colors.blue),
-  //           home: MyHomePage(
-  //             title: 'Flutter_hw_12',
-  //           )));
-  // }
-
   @override
   void dispose() {
-    _someBlock.dispose();
-    // _userBlock.dispose();
+    _userBlock.dispose();
     super.dispose();
   }
 }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -66,103 +51,84 @@ class _MyHomePageState extends State<MyHomePage> {
   var toShow = 'No data';
 
   void _showTo() {
-    toShow = context.read<SomeBlock>().myShow().toString();
+    toShow = context.read<UserBlock>().myShow().toString();
     setState(() {});
   }
 
   void _addTo() {
-    context.read<SomeBlock>().adder();
+    context.read<UserBlock>().adder();
     toShow = 'Has data';
     setState(() {});
   }
 
   void _cleanFrom() {
-    context.read<SomeBlock>().myCleaner();
+    context.read<UserBlock>().myCleaner();
     toShow = 'No data';
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                children: [
-                  OutlinedButton(onPressed: _addTo, child: Text('Добавить')),
-                  OutlinedButton(
-                      onPressed: _cleanFrom, child: Text('Очистить')),
-                  OutlinedButton(onPressed: _showTo, child: Text('Показать')),
-                ],
+    return StreamBuilder<UserBlockState>(
+      stream: context.read<UserBlock>().state,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final state = snapshot.data;
+          return state!.map<Widget>(
+            loading: (_) => Scaffold(
+              appBar: AppBar(title: Text(widget.title)),
+              body: const Center(
+                child: Text('Loading'),
               ),
             ),
-            Expanded(
+            loaded: (state) => Scaffold(
+              appBar: AppBar(
+                title: Text(widget.title),
+              ),
+              body: Center(
                 child: Column(
-              children: [Text(toShow)],
-            )),
-          ],
-        ),
-      ),
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Text(
+                              state.userData.name,
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                          ),
+                          OutlinedButton(
+                              onPressed: _addTo, child: const Text('Добавить')),
+                          OutlinedButton(
+                              onPressed: _cleanFrom,
+                              child: const Text('Очистить')),
+                          OutlinedButton(
+                              onPressed: _showTo,
+                              child: const Text('Показать')),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                        child: Column(
+                      children: [Text(toShow)],
+                    )),
+                  ],
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () => context
+                    .read<UserBlock>()
+                    .add(UserBlockEvent.setUser(userId: state.userData.id + 1)),
+                tooltip: 'Increment',
+                child: const Icon(Icons.add),
+              ),
+            ),
+          );
+        } else {
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
+        }
+      },
     );
-
-    // return StreamBuilder<UserBlockState>(
-    //   stream: context.read<UserBlock>().state,
-    //   builder: (context, snapshot) {
-    //     if (snapshot.hasData) {
-    //       final state = snapshot.data;
-    //       return state!.map(
-    //         loading: (_) => Scaffold(),
-    //         loaded: (state) => Scaffold(
-    //           appBar: AppBar(
-    //             title: Text(widget.title),
-    //           ),
-    //           body: Center(
-    //             child: Column(
-    //               children: <Widget>[
-    //                 Expanded(
-    //                   child: Column(
-    //                     children: [
-    //                       OutlinedButton(
-    //                           onPressed: _addTo, child: Text('Добавить')),
-    //                       OutlinedButton(
-    //                           onPressed: _cleanFrom, child: Text('Очистить')),
-    //                       OutlinedButton(
-    //                           onPressed: _showTo, child: Text('Показать')),
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 Expanded(
-    //                     child: Column(
-    //                   children: [Text(toShow)],
-    //                 )),
-    //                 // Expanded(
-    //                 //     child: StreamBuilder<UserBlockState>(
-    //                 //   stream: context.read<UserBlock>().state,
-    //                 //   builder: (context, snapshot) {
-    //                 //     if (snapshot.hasData) {
-    //                 //       final state = snapshot.data;
-    //                 //       return state!.map(
-    //                 //           loading: (_) => Text('Loading'),
-    //                 //           loaded: (_) => Text('Loaded'));
-    //                 //     } else {
-    //                 //       return CircularProgressIndicator();
-    //                 //     }
-    //                 //   },
-    //                 // ))
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //       );
-    //     } else {
-    //       return CircularProgressIndicator();
-    //     }
-    //   },
-    // );
   }
 }

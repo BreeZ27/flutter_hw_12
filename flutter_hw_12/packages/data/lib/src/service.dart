@@ -1,9 +1,9 @@
 import 'package:model/model.dart';
 
 abstract class SuperService {
-  late List array;
+  late List<bool> array;
   bool getValue();
-  List show();
+  List<bool> show();
 }
 
 abstract class UserService {

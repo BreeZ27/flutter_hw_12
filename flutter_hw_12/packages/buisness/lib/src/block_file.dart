@@ -1,43 +1,14 @@
 import 'dart:async';
 import 'package:data/data.dart';
 import 'package:injectable/injectable.dart';
-import 'package:get_it/get_it.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:model/model.dart';
 
 part 'block_file.freezed.dart';
 
-@lazySingleton
-class SomeBlock {
-  final SuperService superService;
-  final StreamController<int> _eventsController = StreamController();
-
-  SomeBlock({required this.superService});
-
-  void add(int event) {
-    if (_eventsController.isClosed) return;
-    _eventsController.add(event);
-  }
-
-  void dispose() {
-    _eventsController.close();
-  }
-
-  void adder() {
-    superService.getValue();
-  }
-
-  myShow() {
-    return superService.array;
-  }
-
-  void myCleaner() {
-    superService.array.clear();
-  }
-}
-
 @injectable
 class UserBlock {
+  final SuperService superService;
   final UserService userService;
   final StreamController<UserBlockEvent> _eventContrl = StreamController();
   final StreamController<UserBlockState> _stateContrl =
@@ -45,11 +16,11 @@ class UserBlock {
 
   Stream<UserBlockState> get state => _stateContrl.stream;
 
-  UserBlock({required this.userService}) {
+  UserBlock({required this.userService, required this.superService}) {
     _eventContrl.stream.listen((event) {
       event.map<void>(
           init: (_) async {
-            _stateContrl.add(UserBlockState.loading());
+            _stateContrl.add(const UserBlockState.loading());
             _stateContrl.add(UserBlockState.loaded(
                 userData: await userService.getDefUser()));
           },
@@ -66,6 +37,18 @@ class UserBlock {
   void dispose() {
     _eventContrl.close();
     _stateContrl.close();
+  }
+
+  void adder() {
+    superService.getValue();
+  }
+
+  myShow() {
+    return superService.array;
+  }
+
+  void myCleaner() {
+    superService.array.clear();
   }
 }
 

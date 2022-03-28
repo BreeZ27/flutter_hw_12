@@ -16,5 +16,6 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
     {String? environment, _i2.EnvironmentFilter? environmentFilter}) {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   gh.lazySingleton<_i3.SuperService>(() => _i4.MyService());
+  gh.lazySingleton<_i3.UserService>(() => _i4.MyUserService());
   return get;
 }

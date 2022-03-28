@@ -202,6 +202,8 @@ abstract class $UserLoadedStateCopyWith<$Res> {
           UserLoadedState value, $Res Function(UserLoadedState) then) =
       _$UserLoadedStateCopyWithImpl<$Res>;
   $Res call({UserData userData});
+
+  $UserDataCopyWith<$Res> get userData;
 }
 
 /// @nodoc
@@ -225,6 +227,13 @@ class _$UserLoadedStateCopyWithImpl<$Res>
           : userData // ignore: cast_nullable_to_non_nullable
               as UserData,
     ));
+  }
+
+  @override
+  $UserDataCopyWith<$Res> get userData {
+    return $UserDataCopyWith<$Res>(_value.userData, (value) {
+      return _then(_value.copyWith(userData: value));
+    });
   }
 }
 

@@ -8,6 +8,19 @@
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
+# package:pedantic/analysis_options.yaml
+
+analyzer:
+  language:
+    strict-raw-types: true
+
+  errors:
+    todo: ignore
+
+  exclude:
+    - analysis_options.yaml
+    - "**/*.freezed.dart"
+    - "**/*.config.dart"
 
 linter:
   # The lint rules applied to this project can be customized in the
@@ -27,3 +40,17 @@ linter:
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
+    number-of-parameters: 5
+  
+  metrics-exclude:
+    - test/**
+
+  rules:
+    - prefer-trailing-comma
+    
+  rules-exclude:
+    - test/**

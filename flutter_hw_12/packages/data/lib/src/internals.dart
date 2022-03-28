@@ -5,17 +5,17 @@ import 'package:injectable/injectable.dart';
 @LazySingleton(as: SuperService)
 class MyService implements SuperService {
   @override
-  List array = [];
+  List<bool> array = [];
 
   @override
   bool getValue() {
     array.add(true);
-    print(array);
+    // print(array);
     return true;
   }
 
   @override
-  List show() {
+  List<bool> show() {
     return array;
   }
 }

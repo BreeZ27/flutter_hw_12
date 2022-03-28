@@ -15,9 +15,8 @@ import 'block_file.dart' as _i3; // ignore_for_file: unnecessary_lambdas
 _i1.GetIt $initGetIt(_i1.GetIt get,
     {String? environment, _i2.EnvironmentFilter? environmentFilter}) {
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
-  gh.lazySingleton<_i3.SomeBlock>(
-      () => _i3.SomeBlock(superService: get<_i4.SuperService>()));
-  gh.factory<_i3.UserBlock>(
-      () => _i3.UserBlock(userService: get<_i4.UserService>()));
+  gh.factory<_i3.UserBlock>(() => _i3.UserBlock(
+      userService: get<_i4.UserService>(),
+      superService: get<_i4.SuperService>()));
   return get;
 }
