@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -23,13 +23,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Provider<UserBlock>(
-        create: (_) => _userBlock,
-        child: MaterialApp(
-            title: 'Flutter_hw_12',
-            theme: ThemeData(primarySwatch: Colors.blue),
-            home: const MyHomePage(
-              title: 'Flutter_hw_12',
-            )));
+      create: (_) => _userBlock,
+      child: MaterialApp(
+        title: 'Flutter_hw_12',
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: const MyHomePage(
+          title: 'Flutter_hw_12',
+        ),
+      ),
+    );
   }
 
   @override
@@ -48,16 +50,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var toShow = 'No data';
-
-  void _showTo() {
-    toShow = context.read<UserBlock>().myShow().toString();
-    setState(() {});
-  }
+  String toShow = 'No data';
 
   void _addTo() {
     context.read<UserBlock>().adder();
-    toShow = 'Has data';
+    toShow = context.read<UserBlock>().myShow().toString();
     setState(() {});
   }
 
@@ -65,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
     context.read<UserBlock>().myCleaner();
     toShow = 'No data';
     setState(() {});
+  }
+
+  void _userUpdate(UserLoadedState state) {
+    return context.read<UserBlock>().add(
+          UserBlockEvent.setUser(userId: state.userData.id + 1),
+        );
   }
 
   @override
@@ -75,58 +78,68 @@ class _MyHomePageState extends State<MyHomePage> {
         if (snapshot.hasData) {
           final state = snapshot.data;
           return state!.map<Widget>(
-            loading: (_) => Scaffold(
-              appBar: AppBar(title: Text(widget.title)),
-              body: const Center(
-                child: Text('Loading'),
-              ),
-            ),
-            loaded: (state) => Scaffold(
-              appBar: AppBar(
-                title: Text(widget.title),
-              ),
-              body: Center(
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Center(
-                            child: Text(
+            loading: (_) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.title),
+                ),
+                body: const Center(
+                  child: Text('Loading'),
+                ),
+              );
+            },
+            loaded: (state) {
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.title),
+                ),
+                body: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
                               state.userData.name,
                               style: Theme.of(context).textTheme.headline4,
                             ),
-                          ),
-                          OutlinedButton(
-                              onPressed: _addTo, child: const Text('Добавить')),
-                          OutlinedButton(
-                              onPressed: _cleanFrom,
-                              child: const Text('Очистить')),
-                          OutlinedButton(
-                              onPressed: _showTo,
-                              child: const Text('Показать')),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
+                      Expanded(
                         child: Column(
-                      children: [Text(toShow)],
-                    )),
-                  ],
+                          children: [
+                            OutlinedButton(
+                              onPressed: _addTo,
+                              child: const Text('Добавить'),
+                            ),
+                            OutlinedButton(
+                              onPressed: _cleanFrom,
+                              child: const Text('Очистить'),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(toShow),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () => context
-                    .read<UserBlock>()
-                    .add(UserBlockEvent.setUser(userId: state.userData.id + 1)),
-                tooltip: 'Increment',
-                child: const Icon(Icons.add),
-              ),
-            ),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () => _userUpdate(state),
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                ),
+              );
+            },
           );
         } else {
           return const Scaffold(
-              body: Center(child: CircularProgressIndicator()));
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
       },
     );
