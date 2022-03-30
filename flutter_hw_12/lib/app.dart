@@ -52,6 +52,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String toShow = 'No data';
 
+  final loading = const Scaffold(
+    body: Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
+
   void _addTo() {
     context.read<UserBlock>().adder();
     toShow = context.read<UserBlock>().myShow().toString();
@@ -135,11 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           );
         } else {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return loading;
         }
       },
     );
